@@ -22,6 +22,7 @@ extern digital_out left_wing;
 extern digital_out right_wing;
 extern inertial Inertial;
 extern distance Distance;
+extern distance intakeDistance;
 
 extern bool left_wing_toggle;
 extern bool right_wing_toggle;

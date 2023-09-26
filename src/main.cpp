@@ -205,15 +205,21 @@ void usercontrol(void) {
       double top_integral = 0;
       double top_integral_limit = 35;
       double top_max_pct = 100;
-  while (1) {
-    Controller1.ButtonY.pressed(ButtonY_Callback);
-    Controller1.ButtonA.pressed(ButtonA_Callback);
-    Controller1.ButtonB.pressed(ButtonB_Callback);
-    Controller1.ButtonX.pressed(ButtonX_Callback);
-    Controller1.ButtonUp.pressed(ButtonUp_Callback);
 
-    printf("Button X Bool: %s \n", ButtonX_Callback ? "true" : "false");
-    printf("Button is pressed: %s \n", Controller1.ButtonX.pressing() ? "true" : "false");
+    Controller1.ButtonY.released(ButtonY_Callback);
+
+    Controller1.ButtonA.released(ButtonA_Callback);
+
+    Controller1.ButtonB.released(ButtonB_Callback);
+
+    Controller1.ButtonX.released(ButtonX_Callback);
+    
+    Controller1.ButtonUp.released(ButtonUp_Callback);
+  while (1) {
+ 
+
+    // printf("Button X Bool: %s \n", ButtonX_Callback ? "true" : "false");
+    // printf("Button is pressed: %s \n", Controller1.ButtonX.pressing() ? "true" : "false");
     // leftDrive.spin(fwd, Controller1.Axis3.position() + Controller1.Axis1.position(), pct);
     // rightDrive.spin(fwd, Controller1.Axis3.position() - Controller1.Axis1.position(), pct); 
     chassis.control_arcade();
@@ -360,7 +366,7 @@ void usercontrol(void) {
 
 
 
-    vex::task::sleep(20); // Sleep the task for a short amount of time to
+    wait(20,msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
   }
 }

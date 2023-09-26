@@ -82,24 +82,46 @@ void holonomic_odom_test(){
 
 void red_Right(){
   odom_constants();
-  chassis.set_coordinates(0, 0, -25);
+  chassis.set_coordinates(0, 0, -15);
   telemetry.broadcast();
   //Time for the fun stuff
 
   //Dash to the first triball
   intakeEvent.broadcast();
-  chassis.drive_distance(52,-25);
-  wait(700, msec);
-  chassis.drive_distance(-10);
-  wait(700, msec);
-  chassis.left_swing_to_angle(90);
-  wait(700, msec);
-  intakeMotor.spinFor(forward, -12, turns, 400, velocityUnits::rpm);
-  wait(2000, msec);
-  chassis.left_swing_to_angle(-90);
-  wait(700, msec);
-  chassis.drive_distance(10); 
-  wait(700, msec);
+  chassis.drive_distance(52,-15);
+  wait(200, msec);
+  // chassis.drive_distance(-10);
+  // wait(700, msec);
+  chassis.turn_to_angle(90);
+  wait(200,msec);
+  chassis.drive_distance(1);
+  wait(100, msec);
+  intake_air.set(true);
+  intakeMotor.spinFor(forward, -6, turns, 400, velocityUnits::rpm, false);
+  chassis.drive_distance(15);
+  wait(100, msec);
+  chassis.drive_distance(-8);
+  wait(100, msec);
+  // chassis.turn_to_angle(-65);
+  chassis.left_swing_to_angle(-45);
+  intake_air.set(false);
+  wait(100, msec);
+  //intakeEvent.broadcast();
+  chassis.drive_distance(16);
+  wait(100, msec);
+  chassis.turn_to_angle(90);
+  wait(200,msec);
+  chassis.drive_distance(25);
+  intake_air.set(true);
+  wait(100, msec);
+
+  
+  
+  // wait(2000, msec);
+  // chassis.left_swing_to_angle(-90);
+  // wait(700, msec);
+  // chassis.drive_distance(10); 
+  // wait(700, msec);
 
   
   
