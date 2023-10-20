@@ -100,39 +100,42 @@ void pre_auton(void) {
   // Initializing Robot Configuration. DO NOT REMOVE!
   vexcodeInit();
   default_constants();
+  intake_air.set(true);
+  rear_jack.set(true);
+
 
   while(auto_started == false){            //Changing the names below will only change their names on the
     Brain.Screen.clearScreen();            //brain screen for auton selection.
     switch(current_auton_selection){       //Tap the brain screen to cycle through autons.
       case 0:
-        Brain.Screen.printAt(50, 50, "Drive Test");
+        Brain.Screen.printAt(50, 50, "FarSide");
         break;
       case 1:
-        Brain.Screen.printAt(50, 50, "Drive Test");
+        Brain.Screen.printAt(50, 50, "CloseSide");
         break;
       case 2:
-        Brain.Screen.printAt(50, 50, "Turn Test");
+        Brain.Screen.printAt(50, 50, "Skills");
         break;
-      case 3:
-        Brain.Screen.printAt(50, 50, "Swing Test");
-        break;
-      case 4:
-        Brain.Screen.printAt(50, 50, "Full Test");
-        break;
-      case 5:
-        Brain.Screen.printAt(50, 50, "Odom Test");
-        break;
-      case 6:
-        Brain.Screen.printAt(50, 50, "Tank Odom Test");
-        break;
-      case 7:
-        Brain.Screen.printAt(50, 50, "Holonomic Odom Test");
-        break;
+      // case 3:
+      //   Brain.Screen.printAt(50, 50, "Swing Test");
+      //   break;
+      // case 4:
+      //   Brain.Screen.printAt(50, 50, "Full Test");
+      //   break;
+      // case 5:
+      //   Brain.Screen.printAt(50, 50, "Odom Test");
+      //   break;
+      // case 6:
+      //   Brain.Screen.printAt(50, 50, "Tank Odom Test");
+      //   break;
+      // case 7:
+      //   Brain.Screen.printAt(50, 50, "Holonomic Odom Test");
+      //   break;
     }
     if(Brain.Screen.pressing()){
       while(Brain.Screen.pressing()) {}
       current_auton_selection ++;
-    } else if (current_auton_selection == 8){
+    } else if (current_auton_selection == 3){
       current_auton_selection = 0;
     }
     task::sleep(10);
@@ -143,29 +146,29 @@ void autonomous(void) {
   auto_started = true;
   switch(current_auton_selection){  
     case 0:
-      red_Right(); //This is the default auton, if you don't select from the brain.
+      farSide(); //This is the default auton, if you don't select from the brain.
       break;        //Change these to be your own auton functions in order to use the auton selector.
     case 1:         //Tap the screen to cycle through autons.
-      drive_test();
+      closeSide();
       break;
     case 2:
-      turn_test();
+      skills();
       break;
-    case 3:
-      swing_test();
-      break;
-    case 4:
-      full_test();
-      break;
-    case 5:
-      odom_test();
-      break;
-    case 6:
-      tank_odom_test();
-      break;
-    case 7:
-      holonomic_odom_test();
-      break;
+    // case 3:
+    //   swing_test();
+    //   break;
+    // case 4:
+    //   full_test();
+    //   break;
+    // case 5:
+    //   odom_test();
+    //   break;
+    // case 6:
+    //   tank_odom_test();
+    //   break;
+    // case 7:
+    //   holonomic_odom_test();
+    //   break;
  }
 }
 
@@ -188,7 +191,7 @@ void usercontrol(void) {
     // For Bottom PID
       double bottom_kp = 0.7;
       double bottom_ki = 0.1;
-      double bottom_kd = 0.5;
+      double bottom_kd = 0.4;
       double bottom_derivative;
       double bottom_previous_error = 0;
       double bottom_integral = 0;
@@ -206,15 +209,19 @@ void usercontrol(void) {
       double top_integral_limit = 35;
       double top_max_pct = 100;
 
-    Controller1.ButtonY.released(ButtonY_Callback);
+    Controller1.ButtonY.pressed(ButtonY_Callback);
 
-    Controller1.ButtonA.released(ButtonA_Callback);
+    Controller1.ButtonA.pressed(ButtonA_Callback);
 
-    Controller1.ButtonB.released(ButtonB_Callback);
+    Controller1.ButtonB.pressed(ButtonB_Callback);
 
-    Controller1.ButtonX.released(ButtonX_Callback);
+    Controller1.ButtonX.pressed(ButtonX_Callback);
     
-    Controller1.ButtonUp.released(ButtonUp_Callback);
+    Controller1.ButtonUp.pressed(ButtonUp_Callback);
+
+    rear_jack.set(false);
+    intake_air.set(false);
+
   while (1) {
  
 
@@ -271,12 +278,12 @@ void usercontrol(void) {
       {
         cata_mode = 2;
       }
-      else if ( Distance.objectDistance(mm) > 80)
+      else if ( Distance.objectDistance(mm) > 109)
       {
         
-        bottom_error = 80 - Distance.objectDistance(mm);
+        bottom_error = 109 - Distance.objectDistance(mm);
 
-        if (fabs(bottom_error) <= 8)
+        if (fabs(bottom_error) <= 3)
         {
         double bottom_previous_error = 0;
         double bottom_integral = 0;

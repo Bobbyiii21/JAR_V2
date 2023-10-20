@@ -23,6 +23,7 @@ extern digital_out right_wing;
 extern inertial Inertial;
 extern distance Distance;
 extern distance intakeDistance;
+extern motor_group driveMotor;
 
 extern bool left_wing_toggle;
 extern bool right_wing_toggle;
@@ -36,7 +37,13 @@ extern void ButtonX_Callback();
 extern void ButtonUp_Callback();
 extern void wingValve(bool state);
 extern void intake(bool state);
+extern void intakeReverse(bool state);
 extern void intakeUntilObject();
+extern void cataReset(int target_dist);
+extern void spinChassisMAX(int time);
+extern void spinChassisReverseMAX(int time);
+
+
 extern vex::event intakeEvent;
 extern vex::event telemetry;
 
